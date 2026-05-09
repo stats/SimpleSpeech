@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { CommunicationButton } from "../types";
 
 type CommunicationButtonCardProps = {
@@ -27,8 +29,17 @@ export function CommunicationButtonCard({
   onDelete,
   onMove
 }: CommunicationButtonCardProps) {
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
+    id: button.id,
+    disabled: !isEditing
+  });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition
+  };
+
   return (
-    <article className="button-tile">
+    <article ref={setNodeRef} className={`button-tile${isDragging ? " is-dragging" : ""}`} style={style}>
       <button className="speak-card" type="button" onClick={onSpeak} aria-label={`Speak ${button.phrase}`}>
         <span className={`picture-frame placeholder-${button.placeholder ?? "custom"}`}>
           {button.imageDataUrl ? (
@@ -45,6 +56,16 @@ export function CommunicationButtonCard({
 
       {isEditing ? (
         <div className="edit-controls" aria-label={`${button.label} edit controls`}>
+          <button
+            className="drag-handle"
+            type="button"
+            ref={setActivatorNodeRef}
+            {...attributes}
+            {...listeners}
+            aria-label={`Drag ${button.label} to reorder`}
+          >
+            Drag
+          </button>
           <button type="button" onClick={onEdit}>
             Edit
           </button>

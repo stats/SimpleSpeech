@@ -104,6 +104,21 @@ export async function replaceAllButtons(buttons: CommunicationButton[]) {
   });
 }
 
+export async function reorderButtons(buttons: CommunicationButton[]) {
+  const timestamp = nowIso();
+
+  await db.transaction("rw", db.buttons, async () => {
+    await Promise.all(
+      buttons.map((button, sortOrder) =>
+        db.buttons.update(button.id, {
+          sortOrder,
+          updatedAt: timestamp
+        })
+      )
+    );
+  });
+}
+
 export async function moveButton(id: string, direction: "up" | "down") {
   const buttons = await getButtons();
   const index = buttons.findIndex((button) => button.id === id);
@@ -117,16 +132,7 @@ export async function moveButton(id: string, direction: "up" | "down") {
   const [button] = reordered.splice(index, 1);
   reordered.splice(targetIndex, 0, button);
 
-  await db.transaction("rw", db.buttons, async () => {
-    await Promise.all(
-      reordered.map((item, sortOrder) =>
-        db.buttons.update(item.id, {
-          sortOrder,
-          updatedAt: nowIso()
-        })
-      )
-    );
-  });
+  await reorderButtons(reordered);
 }
 
 async function normalizeSortOrder() {

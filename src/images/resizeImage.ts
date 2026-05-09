@@ -1,4 +1,4 @@
-const MAX_IMAGE_SIZE = 250;
+const MAX_IMAGE_SIZE = 125;
 const IMAGE_QUALITY = 0.8;
 
 export async function resizeImage(file: File): Promise<string> {

@@ -3,7 +3,7 @@ import { ButtonEditor } from "../components/ButtonEditor";
 import { ButtonGrid } from "../components/ButtonGrid";
 import { ConfirmDialog } from "../components/ConfirmDialog";
 import { SettingsPanel } from "../components/SettingsPanel";
-import { deleteButton, getButtons, moveButton, replaceAllButtons, saveButton } from "../data/buttonRepository";
+import { deleteButton, getButtons, moveButton, reorderButtons, replaceAllButtons, saveButton } from "../data/buttonRepository";
 import { speakPhrase } from "../speech/speak";
 import type { CommunicationButton } from "../types";
 
@@ -45,6 +45,20 @@ export function App() {
   async function handleMove(id: string, direction: "up" | "down") {
     await moveButton(id, direction);
     await loadButtons();
+  }
+
+  async function handleReorder(reorderedButtons: CommunicationButton[]) {
+    const previousButtons = buttons;
+    setButtons(reorderedButtons);
+    setStatus("");
+
+    try {
+      await reorderButtons(reorderedButtons);
+    } catch {
+      setButtons(previousButtons);
+      setStatus("Could not save the new button order.");
+      await loadButtons();
+    }
   }
 
   async function handleImport(importedButtons: CommunicationButton[]) {
@@ -90,6 +104,7 @@ export function App() {
         }}
         onDelete={setDeleteTarget}
         onMove={handleMove}
+        onReorder={handleReorder}
       />
 
       {isEditing ? <SettingsPanel buttons={buttons} onImport={handleImport} /> : null}

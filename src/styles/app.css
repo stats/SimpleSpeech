@@ -115,7 +115,7 @@ button:disabled {
 .button-grid {
   display: grid;
   gap: clamp(14px, 2vw, 22px);
-  grid-template-columns: repeat(auto-fit, minmax(150px, 250px));
+  grid-template-columns: repeat(auto-fit, minmax(75px, 125px));
   justify-content: center;
   margin: 0 auto;
   max-width: 1400px;
@@ -124,7 +124,18 @@ button:disabled {
 .button-tile {
   display: grid;
   gap: 8px;
-  width: min(250px, 100%);
+  width: min(125px, 100%);
+}
+
+.button-tile.is-dragging {
+  opacity: 0.7;
+  position: relative;
+  z-index: 4;
+}
+
+.button-tile.is-dragging .speak-card {
+  box-shadow: 0 18px 34px rgb(16 32 51 / 25%);
+  transform: scale(1.02);
 }
 
 .speak-card {
@@ -137,11 +148,11 @@ button:disabled {
   color: #17212b;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto auto;
-  max-height: 250px;
-  max-width: 250px;
-  min-height: 150px;
+  max-height: 125px;
+  max-width: 125px;
+  min-height: 75px;
   overflow: hidden;
-  padding: 10px;
+  padding: 6px;
   text-align: center;
   width: 100%;
 }
@@ -192,24 +203,24 @@ button:disabled {
 }
 
 .placeholder-mark {
-  font-size: clamp(2.25rem, 8vw, 4rem);
+  font-size: clamp(1.35rem, 5vw, 2.1rem);
   font-weight: 900;
   letter-spacing: 0;
 }
 
 .button-label {
-  font-size: clamp(1.25rem, 4vw, 1.8rem);
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
   font-weight: 800;
   line-height: 1.05;
-  margin-top: 8px;
+  margin-top: 5px;
   overflow-wrap: anywhere;
 }
 
 .button-phrase {
   color: #526272;
-  font-size: 0.82rem;
+  font-size: 0.64rem;
   line-height: 1.15;
-  margin-top: 4px;
+  margin-top: 2px;
   overflow-wrap: anywhere;
 }
 
@@ -217,6 +228,13 @@ button:disabled {
   display: grid;
   gap: 6px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.edit-controls .drag-handle {
+  background: #2364aa;
+  color: #ffffff;
+  touch-action: none;
+  user-select: none;
 }
 
 .settings-panel {
@@ -306,7 +324,7 @@ button:disabled {
   color: #526272;
   display: flex;
   justify-content: center;
-  max-width: 250px;
+  max-width: 125px;
   overflow: hidden;
 }
 
@@ -341,12 +359,12 @@ button:disabled {
   }
 
   .button-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
   }
 
   .button-tile {
     justify-self: center;
-    max-width: 250px;
+    max-width: 125px;
     width: 100%;
   }
 }
