@@ -119,22 +119,6 @@ export async function reorderButtons(buttons: CommunicationButton[]) {
   });
 }
 
-export async function moveButton(id: string, direction: "up" | "down") {
-  const buttons = await getButtons();
-  const index = buttons.findIndex((button) => button.id === id);
-  const targetIndex = direction === "up" ? index - 1 : index + 1;
-
-  if (index < 0 || targetIndex < 0 || targetIndex >= buttons.length) {
-    return;
-  }
-
-  const reordered = buttons.slice();
-  const [button] = reordered.splice(index, 1);
-  reordered.splice(targetIndex, 0, button);
-
-  await reorderButtons(reordered);
-}
-
 async function normalizeSortOrder() {
   const buttons = await db.buttons.orderBy("sortOrder").toArray();
   await db.transaction("rw", db.buttons, async () => {

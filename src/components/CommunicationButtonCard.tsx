@@ -5,12 +5,9 @@ import type { CommunicationButton } from "../types";
 type CommunicationButtonCardProps = {
   button: CommunicationButton;
   isEditing: boolean;
-  isFirst: boolean;
-  isLast: boolean;
   onSpeak: () => void;
   onEdit: () => void;
   onDelete: () => void;
-  onMove: (direction: "up" | "down") => void;
 };
 
 const placeholderText: Record<string, string> = {
@@ -22,12 +19,9 @@ const placeholderText: Record<string, string> = {
 export function CommunicationButtonCard({
   button,
   isEditing,
-  isFirst,
-  isLast,
   onSpeak,
   onEdit,
-  onDelete,
-  onMove
+  onDelete
 }: CommunicationButtonCardProps) {
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
     id: button.id,
@@ -68,12 +62,6 @@ export function CommunicationButtonCard({
           </button>
           <button type="button" onClick={onEdit}>
             Edit
-          </button>
-          <button type="button" onClick={() => onMove("up")} disabled={isFirst}>
-            Up
-          </button>
-          <button type="button" onClick={() => onMove("down")} disabled={isLast}>
-            Down
           </button>
           <button className="danger-button" type="button" onClick={onDelete}>
             Delete

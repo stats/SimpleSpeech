@@ -18,11 +18,10 @@ type ButtonGridProps = {
   onSpeak: (button: CommunicationButton) => void;
   onEdit: (button: CommunicationButton) => void;
   onDelete: (button: CommunicationButton) => void;
-  onMove: (id: string, direction: "up" | "down") => void;
   onReorder: (buttons: CommunicationButton[]) => void;
 };
 
-export function ButtonGrid({ buttons, isEditing, onSpeak, onEdit, onDelete, onMove, onReorder }: ButtonGridProps) {
+export function ButtonGrid({ buttons, isEditing, onSpeak, onEdit, onDelete, onReorder }: ButtonGridProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -64,12 +63,9 @@ export function ButtonGrid({ buttons, isEditing, onSpeak, onEdit, onDelete, onMo
           key={button.id}
           button={button}
           isEditing={isEditing}
-          isFirst={index === 0}
-          isLast={index === buttons.length - 1}
           onSpeak={() => onSpeak(button)}
           onEdit={() => onEdit(button)}
           onDelete={() => onDelete(button)}
-          onMove={(direction) => onMove(button.id, direction)}
         />
       ))}
     </section>

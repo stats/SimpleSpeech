@@ -3,7 +3,7 @@ import { ButtonEditor } from "../components/ButtonEditor";
 import { ButtonGrid } from "../components/ButtonGrid";
 import { ConfirmDialog } from "../components/ConfirmDialog";
 import { SettingsPanel } from "../components/SettingsPanel";
-import { deleteButton, getButtons, moveButton, reorderButtons, replaceAllButtons, saveButton } from "../data/buttonRepository";
+import { deleteButton, getButtons, reorderButtons, replaceAllButtons, saveButton } from "../data/buttonRepository";
 import { speakPhrase } from "../speech/speak";
 import type { CommunicationButton } from "../types";
 
@@ -42,11 +42,6 @@ export function App() {
     await loadButtons();
   }
 
-  async function handleMove(id: string, direction: "up" | "down") {
-    await moveButton(id, direction);
-    await loadButtons();
-  }
-
   async function handleReorder(reorderedButtons: CommunicationButton[]) {
     const previousButtons = buttons;
     setButtons(reorderedButtons);
@@ -68,29 +63,23 @@ export function App() {
 
   return (
     <main className="app-shell">
-      <header className="top-bar">
-        <div>
-          <h1>SimpleSpeech</h1>
-          <p>{isEditing ? "Caregiver edit mode" : "Tap a picture to speak"}</p>
-        </div>
-        <div className="top-actions">
-          <button className="secondary-button" type="button" onClick={() => setIsEditing((value) => !value)}>
-            {isEditing ? "Done" : "Edit"}
+      <div className="floating-actions" aria-label="Caregiver controls">
+        <button className="secondary-button" type="button" onClick={() => setIsEditing((value) => !value)}>
+          {isEditing ? "Done" : "Edit"}
+        </button>
+        {isEditing ? (
+          <button
+            className="primary-button"
+            type="button"
+            onClick={() => {
+              setEditingButton(null);
+              setShowEditor(true);
+            }}
+          >
+            Add
           </button>
-          {isEditing ? (
-            <button
-              className="primary-button"
-              type="button"
-              onClick={() => {
-                setEditingButton(null);
-                setShowEditor(true);
-              }}
-            >
-              Add
-            </button>
-          ) : null}
-        </div>
-      </header>
+        ) : null}
+      </div>
 
       {status ? <p className="status-text">{status}</p> : null}
 
@@ -103,7 +92,6 @@ export function App() {
           setShowEditor(true);
         }}
         onDelete={setDeleteTarget}
-        onMove={handleMove}
         onReorder={handleReorder}
       />
 

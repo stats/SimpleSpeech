@@ -35,38 +35,20 @@ button:disabled {
 .app-shell {
   min-height: 100vh;
   padding: clamp(16px, 3vw, 32px);
+  padding-top: 72px;
 }
 
-.top-bar {
+.floating-actions {
   align-items: center;
   display: flex;
   gap: 16px;
-  justify-content: space-between;
-  margin: 0 auto 24px;
-  max-width: 1180px;
+  justify-content: flex-end;
+  position: fixed;
+  right: clamp(12px, 3vw, 28px);
+  top: clamp(12px, 3vw, 24px);
+  z-index: 8;
 }
 
-.top-bar h1,
-.top-bar p,
-.settings-panel h2,
-.confirm-panel h2,
-.editor-panel h2 {
-  margin: 0;
-}
-
-.top-bar h1 {
-  color: #102033;
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  line-height: 1;
-}
-
-.top-bar p {
-  color: #526272;
-  font-size: 1rem;
-  margin-top: 8px;
-}
-
-.top-actions,
 .modal-actions,
 .settings-actions {
   display: flex;
@@ -106,6 +88,12 @@ button:disabled {
 .error-text {
   margin: 12px auto;
   max-width: 1180px;
+}
+
+.settings-panel h2,
+.confirm-panel h2,
+.editor-panel h2 {
+  margin: 0;
 }
 
 .error-text {
@@ -345,19 +333,6 @@ button:disabled {
 }
 
 @media (max-width: 620px) {
-  .top-bar {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .top-actions {
-    width: 100%;
-  }
-
-  .top-actions button {
-    flex: 1;
-  }
-
   .button-grid {
     grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
   }
