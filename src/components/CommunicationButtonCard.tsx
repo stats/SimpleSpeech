@@ -45,7 +45,6 @@ export function CommunicationButtonCard({
           )}
         </span>
         <span className="button-label">{button.label}</span>
-        <span className="button-phrase">{button.phrase}</span>
       </button>
 
       {isEditing ? (

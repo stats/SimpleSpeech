@@ -135,7 +135,7 @@ button:disabled {
   box-shadow: 0 8px 18px rgb(16 32 51 / 12%);
   color: #17212b;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
+  grid-template-rows: minmax(0, 1fr) auto;
   max-height: 125px;
   max-width: 125px;
   min-height: 75px;
@@ -201,14 +201,6 @@ button:disabled {
   font-weight: 800;
   line-height: 1.05;
   margin-top: 5px;
-  overflow-wrap: anywhere;
-}
-
-.button-phrase {
-  color: #526272;
-  font-size: 0.64rem;
-  line-height: 1.15;
-  margin-top: 2px;
   overflow-wrap: anywhere;
 }
 
