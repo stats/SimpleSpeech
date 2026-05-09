@@ -244,6 +244,30 @@ button:disabled {
   margin-bottom: 14px;
 }
 
+.voice-settings {
+  align-items: end;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  margin-bottom: 14px;
+}
+
+.voice-settings label {
+  color: #344454;
+  display: grid;
+  font-weight: 700;
+  gap: 6px;
+}
+
+.voice-settings select {
+  border: 2px solid #aebdca;
+  border-radius: 8px;
+  color: #17212b;
+  min-height: 46px;
+  padding: 10px;
+  width: 100%;
+}
+
 .safety-note {
   color: #526272;
   margin: 16px 0 0;
@@ -338,6 +362,10 @@ button:disabled {
 }
 
 @media (max-width: 620px) {
+  .voice-settings {
+    grid-template-columns: 1fr;
+  }
+
   .button-grid {
     grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
   }

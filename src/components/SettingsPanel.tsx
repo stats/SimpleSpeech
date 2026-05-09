@@ -1,6 +1,8 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { exportBackup } from "../backup/exportBackup";
 import { readBackupFile } from "../backup/importBackup";
+import { findSavedVoice, getAvailableVoices, isSpeechSupported, saveVoicePreference } from "../speech/voices";
+import { speakPhrase } from "../speech/speak";
 import type { CommunicationButton } from "../types";
 
 type SettingsPanelProps = {
@@ -11,6 +13,29 @@ type SettingsPanelProps = {
 export function SettingsPanel({ buttons, onImport }: SettingsPanelProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState("");
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+  const [selectedVoiceURI, setSelectedVoiceURI] = useState("");
+
+  useEffect(() => {
+    if (!isSpeechSupported()) {
+      return;
+    }
+
+    function syncVoices() {
+      const availableVoices = getAvailableVoices();
+      const savedVoice = findSavedVoice(availableVoices);
+
+      setVoices(availableVoices);
+      setSelectedVoiceURI(savedVoice?.voiceURI ?? "");
+    }
+
+    syncVoices();
+    window.speechSynthesis.addEventListener("voiceschanged", syncVoices);
+
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", syncVoices);
+    };
+  }, []);
 
   async function handleImport(file: File | undefined) {
     if (!file) {
@@ -36,9 +61,37 @@ export function SettingsPanel({ buttons, onImport }: SettingsPanelProps) {
     }
   }
 
+  function handleVoiceChange(voiceURI: string) {
+    const selectedVoice = voices.find((voice) => voice.voiceURI === voiceURI) ?? null;
+
+    saveVoicePreference(selectedVoice);
+    setSelectedVoiceURI(selectedVoice?.voiceURI ?? "");
+    setMessage(selectedVoice ? `Voice saved: ${selectedVoice.name}` : "Browser default voice saved.");
+  }
+
   return (
     <section className="settings-panel" aria-label="Settings">
       <h2>Settings</h2>
+      <div className="voice-settings">
+        <label>
+          Speech voice
+          <select
+            value={selectedVoiceURI}
+            onChange={(event) => handleVoiceChange(event.target.value)}
+            disabled={!isSpeechSupported()}
+          >
+            <option value="">{isSpeechSupported() ? "Browser default voice" : "Speech is not supported"}</option>
+            {voices.map((voice) => (
+              <option key={`${voice.voiceURI}-${voice.name}-${voice.lang}`} value={voice.voiceURI}>
+                {voice.name} ({voice.lang})
+              </option>
+            ))}
+          </select>
+        </label>
+        <button className="secondary-button" type="button" onClick={() => speakPhrase("This is the selected voice")}>
+          Test Voice
+        </button>
+      </div>
       <div className="settings-actions">
         <button className="secondary-button" type="button" onClick={() => exportBackup(buttons)}>
           Export Backup

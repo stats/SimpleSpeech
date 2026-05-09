@@ -1,3 +1,5 @@
+import { findSavedVoice } from "./voices";
+
 let currentUtterance: SpeechSynthesisUtterance | null = null;
 
 export function speakPhrase(text: string) {
@@ -19,7 +21,13 @@ export function speakPhrase(text: string) {
   utterance.rate = 0.9;
   utterance.pitch = 1;
   utterance.volume = 1;
-  utterance.lang = "en-US";
+
+  const selectedVoice = findSavedVoice();
+
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+    utterance.lang = selectedVoice.lang;
+  }
 
   currentUtterance = utterance;
 
