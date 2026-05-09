@@ -64,8 +64,8 @@ export function App() {
   return (
     <main className="app-shell">
       <div className="floating-actions" aria-label="Caregiver controls">
-        <button className="secondary-button" type="button" onClick={() => setIsEditing((value) => !value)}>
-          {isEditing ? "Done" : "Edit"}
+        <button className={isEditing ? "secondary-button": "edit-button"} type="button" onClick={() => setIsEditing((value) => !value)}>
+          {isEditing ? "Done" : "✏️"}
         </button>
         {isEditing ? (
           <button

@@ -34,8 +34,7 @@ button:disabled {
 
 .app-shell {
   min-height: 100vh;
-  padding: clamp(16px, 3vw, 32px);
-  padding-top: 72px;
+  padding: 8px;
 }
 
 .floating-actions {
@@ -44,8 +43,8 @@ button:disabled {
   gap: 16px;
   justify-content: flex-end;
   position: fixed;
-  right: clamp(12px, 3vw, 28px);
-  top: clamp(12px, 3vw, 24px);
+  right: 4px;
+  top: 4px;
   z-index: 8;
 }
 
@@ -77,6 +76,10 @@ button:disabled {
 .icon-button {
   background: #dfe7ef;
   color: #17212b;
+}
+
+.edit-button {
+
 }
 
 .danger-button {
@@ -136,11 +139,9 @@ button:disabled {
   color: #17212b;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
-  max-height: 125px;
-  max-width: 125px;
   min-height: 75px;
   overflow: hidden;
-  padding: 6px;
+  padding: 0px;
   text-align: center;
   width: 100%;
 }
@@ -157,10 +158,13 @@ button:disabled {
 
 .picture-frame {
   align-items: center;
-  border-radius: 6px;
+  border-radius: 0px;
+  max-height: 125px;
+  max-width: 125px;
+  min-height: 125px;
+  min-width: 125px;
   display: flex;
   justify-content: center;
-  min-height: 0;
   overflow: hidden;
 }
 
